@@ -17,11 +17,11 @@ espresso(wielkosc, intensywnosc, mleko){
 cout >> wielkosc
 switch case wielkosc
 case duzy
-  switch intensywnosc
+  switch intensywnosc | switch spienienie
 case sredni
-  switch intensywnosc
+  switch intensywnosc | switch spienienie
 case maly
-  switch intensywnosc
+  switch intensywnosc | witch spienienie
 }
 
 mleko(klasa zaprzyjazniona)
