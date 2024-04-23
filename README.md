@@ -1,0 +1,42 @@
+ekspres (klasa glowna)
+
+instensywnosc
+saldo wody (ile wody mamy)
+ilość zliczonych kaw -> do czyszczenia  i odkamieniania                                              
+
+rodzaj kawy (zaprzyjaznione klasy)
+w zależności od rodzaju kawy odejmowana jest ilosc wody
+-espresso
+-espresso doppio
+-cappuccino
+-latte
+
+rodzaj_kawy(wybor)
+
+espresso(wielkosc, intensywnosc, mleko){
+cout >> wielkosc
+switch case wielkosc
+case duzy
+  switch intensywnosc
+case sredni
+  switch intensywnosc
+case maly
+  switch intensywnosc
+}
+
+mleko(klasa zaprzyjazniona)
+czy mleko jest podłącozne do ekspresu?
+if mleko = true choose stopien_spienienia {1,2,3}
+cin >> stopien_spienienia
+mleko(int stopien_spienienia)
+
+czyszenie (klasa zaprzyjazniona)
+na podstawie ilosci kaw:
+informacja o czyszczeniu
+informacja o odkamienianiu
+informacja o braku wody
+
+menu:
+switch case
+1.wybierz kawe(intensywnosc, wielkosc)
+1.1 wybierz intensywnosc i wielkosc
