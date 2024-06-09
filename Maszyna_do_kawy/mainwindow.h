@@ -28,14 +28,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    QPushButton *espressoButton;
-    QPushButton *doppioButton;
-    QPushButton *cappuccinoButton;
-    QPushButton *cafeLatteButton;
-    QPushButton *okButton;
-    QPushButton *cleanButton;
-    QPushButton *undoButton;
-    QLabel *statusLabel;
 
     int coffeeCount;
     int waterRefillCount;

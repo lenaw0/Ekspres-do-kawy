@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QTimer>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -10,34 +11,17 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    espressoButton = new QPushButton("Espresso", this);
-    doppioButton = new QPushButton("Doppio", this);
-    cappuccinoButton = new QPushButton("Cappuccino", this);
-    cafeLatteButton = new QPushButton("Café Latte", this);
-    okButton = new QPushButton("OK", this);
-    cleanButton = new QPushButton("Czyszczenie", this);
-    undoButton = new QPushButton("Cofnij", this);
-    statusLabel = new QLabel(this);
 
-    espressoButton->setGeometry(10, 10, 100, 50);
-    doppioButton->setGeometry(120, 10, 100, 50);
-    cappuccinoButton->setGeometry(230, 10, 100, 50);
-    cafeLatteButton->setGeometry(340, 10, 100, 50);
-    okButton->setGeometry(10, 70, 100, 50);
-    cleanButton->setGeometry(120, 70, 100, 50);
-    undoButton->setGeometry(230, 70, 100, 50);
-    statusLabel->setGeometry(10, 130, 430, 50);
+    connect(ui->espressoButton, &QPushButton::clicked, this, &MainWindow::handleCoffeeSelection);
+    connect(ui->caffeLatteButton, &QPushButton::clicked, this, &MainWindow::handleCoffeeSelection);
+    connect(ui->cappuccinoButton, &QPushButton::clicked, this, &MainWindow::handleCoffeeSelection);
+    connect(ui->doppioButton, &QPushButton::clicked, this, &MainWindow::handleCoffeeSelection);
+    connect(ui->okButton, &QPushButton::clicked, this, &MainWindow::handleOkButton);
+    connect(ui->cleanButton, &QPushButton::clicked, this, &MainWindow::handleCleanButton);
+    connect(ui->undoButton, &QPushButton::clicked, this, &MainWindow::handleUndoButton);
 
-    okButton->setEnabled(false);
-    cleanButton->setEnabled(false);
-
-    connect(espressoButton, &QPushButton::clicked, this, &MainWindow::handleCoffeeSelection);
-    connect(doppioButton, &QPushButton::clicked, this, &MainWindow::handleCoffeeSelection);
-    connect(cappuccinoButton, &QPushButton::clicked, this, &MainWindow::handleCoffeeSelection);
-    connect(cafeLatteButton, &QPushButton::clicked, this, &MainWindow::handleCoffeeSelection);
-    connect(okButton, &QPushButton::clicked, this, &MainWindow::handleOkButton);
-    connect(cleanButton, &QPushButton::clicked, this, &MainWindow::handleCleanButton);
-    connect(undoButton, &QPushButton::clicked, this, &MainWindow::handleUndoButton);
+    ui->okButton->setEnabled(false);
+    ui->cleanButton->setEnabled(false);
 }
 
 MainWindow::~MainWindow()
@@ -61,16 +45,16 @@ void MainWindow::handleCoffeeSelection()
         {
             updateStatus("Włóż 2 kapsułki kawy");
         }
+        else if (coffeeType == "Cafe Latte")
+        {
+            updateStatus("Włóż 1 kapsułkę kawy i 2 kapsułki mleka");
+        }
         else if (coffeeType == "Cappuccino")
         {
             updateStatus("Włóż 1 kapsułkę kawy i 1 kapsułkę mleka");
         }
-        else if ( coffeeType == "Café Latte")
-        {
-            updateStatus("Włóż 1 kapsułkę kawy i 2 kapsułki mleka");
-        }
 
-        okButton->setEnabled(true);
+        ui->okButton->setEnabled(true);
         lastAction = coffeeType;
     }
 }
@@ -88,18 +72,18 @@ void MainWindow::handleOkButton()
     updateStatus("Kawa w przygotowaniu");
     QTimer::singleShot(4000, [this] {
         coffeeCount++;
-        okButton->setEnabled(false);
+        ui->okButton->setEnabled(false);
 
         if (coffeeCount >= 10)
         {
             updateStatus("Wymagane czyszczenie");
-            cleanButton->setEnabled(true);
+            ui->cleanButton->setEnabled(true);
         }
         else if (coffeeCount % 4 == 0)
         {
             updateStatus("Uzupełnij wodę");
             waitingForRefill = true;
-            okButton->setEnabled(true);
+            ui->okButton->setEnabled(true);
         }
         else
         {
@@ -115,7 +99,7 @@ void MainWindow::handleCleanButton()
     QTimer::singleShot(1000, [this] {
         updateStatus("Gotowe");
         coffeeCount = 0;
-        cleanButton->setEnabled(false);
+        ui->cleanButton->setEnabled(false);
 
         QTimer::singleShot(3000, this, &MainWindow::clearStatus);
     });
@@ -128,8 +112,8 @@ void MainWindow::handleUndoButton()
     coffeeCount = qMax(0, coffeeCount - 1);
     updateStatus("Cofnięto akcję");
 
-    okButton->setEnabled(false);
-    cleanButton->setEnabled(coffeeCount >= 10);
+    ui->okButton->setEnabled(false);
+    ui->cleanButton->setEnabled(coffeeCount >= 10);
 
     lastAction.clear();
 
@@ -138,10 +122,10 @@ void MainWindow::handleUndoButton()
 
 void MainWindow::updateStatus(const QString &message)
 {
-    statusLabel->setText(message);
+    ui->label->setText(message);
 }
 
 void MainWindow::clearStatus()
 {
-    statusLabel->clear();
+    ui->label->clear();
 }
