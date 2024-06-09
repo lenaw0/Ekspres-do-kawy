@@ -28,13 +28,13 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-
     int coffeeCount;
     int waterRefillCount;
     QString lastAction;
     bool waitingForRefill;
 
     void updateStatus(const QString &message);
+
 };
 
 #endif // MAINWINDOW_H
